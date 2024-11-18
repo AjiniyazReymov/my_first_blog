@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %} Delete review {% endblock %}
+
+{% block content %}
+  <h3>Are You sure want delete this review?</h3>
+
+    <p>
+       <b>Post:</b>{{ post.title }}
+    </p>
+
+    <p>
+        <b>comment:</b> {{ review.comment }}
+    </p>
+
+    <a class="btn btn-outline-danger" href="{% url 'posts:delete-review' post.id review.id %}">yes</a> | <a class="btn btn-outline-primary" href="{% url 'posts:detail' post.id %}">no</a>
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="text-center">My First Blog</h1>
+
+<div class="container">
+    <div class="row">
+      <!-- Birinshi kolonki -->
+      <div class="col-md-4 bg-light border border-light-subtle text-center p-3">
+        {% if posts %}
+            <div>
+                <h3>New Posts</h3>
+              {% for post in posts %}
+
+                  <div>
+                    <div>
+                        <h5><a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a></h5>
+                        <p>Published: {{ post.created_at|date:"d.m.Y H:i" }}</p>
+                        <div>
+                      {% if post.photo %}<img class="review-user-pic" src="{{ post.photo.url }}" alt="Post_photo"> {% else %} <p>Photo not added</p> {% endif %}
+                        </div>
+                        <p>{{ post.description|truncatewords:30 }}</p>
+                    </div>
+                  </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Not found post.</p>
+        {% endif %}
+      </div>
+      <!-- Ekinishi kolonki -->
+      <div class="col-md-4 bg-light border border-light-subtle text-center p-3">
+            <h3>Popular Posts by views</h3>
+             <div>
+                {% for post in posts %}
+                    <div>
+                        <h5><a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a></h5>
+                        <b>Views: {{ post.views }}</b>
+                    </div>
+                     <div>
+                         {% if post.photo %}<img class="review-user-pic" src="{{ post.photo.url }}" alt="Post_photo"> {% else %} <p>Photo not added</p> {% endif %}
+                     </div>
+                     <div>
+                         <p>{{ post.description|truncatewords:30 }}</p>
+                     </div>
+                {% endfor %}
+            </div>
+      </div>
+      <!-- Ushinshi kolonki -->
+      <div class="col-md-4 bg-light border border-light-subtle text-center p-3">
+        <h4>Popular Posts in Month</h4>
+        <div>
+            {% for post in posts %}
+                <div>
+                    <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a> - {{ post.views }} views
+                </div>
+                <div>
+                    {% if post.photo %}<img class="review-user-pic" src="{{ post.photo.url }}" alt="Post_photo"> {% else %} <p>Photo not added</p> {% endif %}
+                </div>
+                <div>
+                    <p>{{ post.description|truncatewords:30 }}</p>
+                </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} Delete post {% endblock %}
+
+{% block content %}
+  <h3>Are You sure want delete this post?</h3>
+
+    <p>
+       <b>Post:</b>{{ post.title }}
+    </p>
+
+    <a class="btn btn-outline-danger" href="{% url 'posts:delete' post.id %}">yes</a> | <a class="btn btn-outline-primary" href="{% url 'posts:detail' post.id %}">no</a>
+
+{% endblock %}

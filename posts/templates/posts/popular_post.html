@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} Popular post page {% endblock %}
+
+{% block content %}
+ <ul>
+    {% for post in posts %}
+        <li>
+            <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a>
+            views: {{ post.views }}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
