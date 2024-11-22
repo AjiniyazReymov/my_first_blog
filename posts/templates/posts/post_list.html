@@ -4,13 +4,13 @@
 
 {% block content %}
 
-    <h3>Posts</h3>
-
     <div class="d-flex justify-content-end">
         {% if request.user.is_authenticated %}
         <a class="btn btn-primary" href="{% url 'posts:create' %}">Publish Post</a>
         {% endif %}
     </div>
+
+    <h3>New Posts</h3>
 
   {% if posts %}
             <div>
@@ -32,5 +32,43 @@
         {% else %}
             <p>Not found post.</p>
         {% endif %}
+
+    <div class="row">
+        <div class="col-7">
+            <h1>Popular Posts by views</h1>
+    <div>
+        {% for post in popular_posts %}
+            <div>
+                {{ post.title }} - {{ post.views }} views
+                <p>Published: {{ post.created_at|date:"d.m.Y H:i" }}</p>
+
+                <div>
+                  {% if post.photo %}<img src="{{ post.photo.url }}" alt="Post_photo"> {% else %} <p>Photo not added</p> {% endif %}
+                </div>
+                    <p>{{ post.description|truncatewords:60 }}</p>
+            </div>
+        {% endfor %}
+    </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-7">
+            <h1>Popular Posts This Month</h1>
+    <div>
+        {% for post in month_popular_posts %}
+            <div>
+                {{ post.title }} - {{ post.views }} views
+                <p>Published: {{ post.created_at|date:"d.m.Y H:i" }}</p>
+
+                <div>
+                  {% if post.photo %}<img src="{{ post.photo.url }}" alt="Post_photo"> {% else %} <p>Photo not added</p> {% endif %}
+                </div>
+                    <p>{{ post.description|truncatewords:60 }}</p>
+            </div>
+        {% endfor %}
+    </div>
+        </div>
+    </div>
 
 {% endblock %}

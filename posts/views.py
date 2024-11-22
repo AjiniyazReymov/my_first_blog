@@ -1,3 +1,4 @@
+from calendar import month
 from django.urls import reverse
 
 from django.contrib import messages
@@ -42,9 +43,18 @@ class PostDetailView(View):
         return render(request, 'posts/detail.html', {'post':post, 'review_form':review_form})
 
 class PostListView(View):
-    def get(self, request):
+    def get(self, request, period='month'):
         posts = Post.objects.filter(status='approved').order_by('-created_at')
-        return render(request, 'posts/post_list.html', {'posts': posts})
+        popular_posts = Post.objects.all().filter(status='approved').order_by('-views')[:10]
+        month_popular_posts = get_popular_posts(period=period)
+        context = {
+            'posts': posts,
+            'popular_posts': popular_posts,
+            'month_popular_posts': month_popular_posts,
+            'period': period
+        }
+
+        return render(request, 'posts/post_list.html', context)
 
 class PostEditView(LoginRequiredMixin, View):
     def get(self, request, id):
@@ -73,17 +83,7 @@ class PostDeleteView(LoginRequiredMixin, View):
 
         return redirect('posts:post-list')
 
-class PopularPostView(View):
-    def get(self, request):
-        posts = Post.objects.all().order_by('-views')[:10]
-        return render(request, 'posts/popular_post.html', {'posts':posts})
-
-class MonthWeeksPopularPostView(View):
-    def get(self, request, period='month'):
-        posts = get_popular_posts(period=period)
-        return render(request, 'posts/month_popular_post.html', {'posts':posts, 'period':period})
-
-class AddReviewView(LoginRequiredMixin, View):
+class AddReviewView(View):
     def post(self, request, id):
         try:
             post = Post.objects.get(id=id)
@@ -91,17 +91,21 @@ class AddReviewView(LoginRequiredMixin, View):
             return redirect('posts:detail', id=id)
 
         review_form = PostReviewForm(data=request.POST)
-        if review_form.is_valid():
-            PostReview.objects.create(
-                post_id=post,
-                user_id=request.user,
-                stars_given=review_form.cleaned_data['stars_given'],
-                comment=review_form.cleaned_data['comment']
-            )
-            return redirect(reverse("posts:detail", kwargs={"id": post.id}))
+        if request.user.is_authenticated:
+            if review_form.is_valid():
+                PostReview.objects.create(
+                    post_id=post,
+                    user_id=request.user,
+                    stars_given=review_form.cleaned_data['stars_given'],
+                    comment=review_form.cleaned_data['comment']
+                )
+                return redirect(reverse("posts:detail", kwargs={"id": post.id}))
 
 
-        return render(request, 'posts/detail.html', {'post':post, 'review_form':review_form})
+            return render(request, 'posts/detail.html', {'post':post, 'review_form':review_form})
+        else:
+            return redirect('users:login')
+
 
 class EditReviewView(LoginRequiredMixin, View):
     def get(self, request, post_id, review_id):
