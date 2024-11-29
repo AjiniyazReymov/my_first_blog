@@ -13,6 +13,6 @@
         <b>comment:</b> {{ review.comment }}
     </p>
 
-    <a class="btn btn-outline-danger" href="{% url 'posts:delete-review' post.id review.id %}">yes</a> | <a class="btn btn-outline-primary" href="{% url 'posts:detail' post.id %}">no</a>
+    <a class="btn btn-outline-danger" href="{% url 'delete-review' post.id review.id %}">yes</a> | <a class="btn btn-outline-primary" href="{% url 'detail' post.id %}">no</a>
 
 {% endblock %}

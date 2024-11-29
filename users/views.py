@@ -12,7 +12,7 @@ class RegisterView(View):
     def get(self, request):
         create_form = UserCreateForm()
         context = {
-            'form':create_form
+            'form': create_form
         }
         return render(request, 'users/register.html', context)
 
@@ -23,9 +23,10 @@ class RegisterView(View):
             return redirect('users:login')
         else:
             context = {
-                'form':create_form
+                'form': create_form
             }
             return render(request, 'users/register.html', context)
+
 
 class LoginView(View):
     def get(self, request):
@@ -33,7 +34,7 @@ class LoginView(View):
         return render(request, 'users/login.html', {'login_form': login_form})
 
     def post(self, request):
-        login_form =AuthenticationForm(data=request.POST)
+        login_form = AuthenticationForm(data=request.POST)
         if login_form.is_valid():
             user = login_form.get_user()
             login(request, user)
@@ -42,9 +43,11 @@ class LoginView(View):
         else:
             return render(request, 'users/login.html', {'login_form': login_form})
 
+
 class ProfileView(View):
     def get(self, request):
-        return render(request, 'users/profile.html', {'user':request.user})
+        return render(request, 'users/profile.html', {'user': request.user})
+
 
 class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
@@ -52,10 +55,11 @@ class LogoutView(LoginRequiredMixin, View):
         messages.info(request, 'You seccessfully logget out')
         return redirect('landing_page')
 
+
 class ProfileUpdateView(LoginRequiredMixin, View):
     def get(self, request):
         user_update_form = UserUpdateForm(instance=request.user)
-        return render(request, 'users/profile_edit.html', {'form':user_update_form})
+        return render(request, 'users/profile_edit.html', {'form': user_update_form})
 
     def post(self, request):
         user_update_form = UserUpdateForm(
@@ -67,4 +71,4 @@ class ProfileUpdateView(LoginRequiredMixin, View):
             user_update_form.save()
             messages.success(request, 'You successfully updated your profile.')
             return redirect('users:profile')
-        return render(request, 'users/profile_edit.html', {'form':user_update_form})
+        return render(request, 'users/profile_edit.html', {'form': user_update_form})

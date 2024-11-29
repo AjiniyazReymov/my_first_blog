@@ -4,11 +4,11 @@
 {% block title %} Popular post page {% endblock %}
 
 {% block content %}
-<h1>Popular Posts in {{ period|title }}</h1>
-<ul>
+ <ul>
     {% for post in posts %}
         <li>
-            <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a> - {{ post.views }} views
+            <a href="{% url 'detail' post.id %}">{{ post.title }}</a>
+            views: {{ post.views }}
         </li>
     {% endfor %}
 </ul>

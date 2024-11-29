@@ -6,7 +6,7 @@
 
     <div class="d-flex justify-content-end">
         {% if request.user.is_authenticated %}
-        <a class="btn btn-primary" href="{% url 'posts:create' %}">Publish Post</a>
+        <a class="btn btn-primary" href="{% url 'create' %}">Publish Post</a>
         {% endif %}
     </div>
 
@@ -18,7 +18,7 @@
 
                   <div class="row">
                     <div class="col-7">
-                        <h3><a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a></h3>
+                        <h3><a href="{% url 'detail' post.id %}">{{ post.title }}</a></h3>
                         <p>Published: {{ post.created_at|date:"d.m.Y H:i" }}</p>
                         <div>
                       {% if post.photo %}<img src="{{ post.photo.url }}" alt="Post_photo"> {% else %} <p>Photo not added</p> {% endif %}

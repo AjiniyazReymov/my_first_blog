@@ -15,7 +15,7 @@
 
                   <div>
                     <div>
-                        <h5><a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a></h5>
+                        <h5><a href="{% url 'detail' post.id %}">{{ post.title }}</a></h5>
                         <p>Published: {{ post.created_at|date:"d.m.Y H:i" }}</p>
                         <div>
                       {% if post.photo %}<img class="review-user-pic" src="{{ post.photo.url }}" alt="Post_photo"> {% else %} <p>Photo not added</p> {% endif %}
@@ -33,33 +33,33 @@
       <div class="col-md-4 bg-light border border-light-subtle text-center p-3">
             <h3>Popular Posts by views</h3>
              <div>
-                {% for post in posts %}
+                {% for popular_post in popular_posts %}
                     <div>
-                        <h5><a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a></h5>
-                        <b>Views: {{ post.views }}</b>
+                        <h5><a href="{% url 'detail' popular_post.id %}">{{ popular_post.title }}</a></h5>
+                        <b>Views: {{ popular_post.views }}</b>
                     </div>
                      <div>
-                         {% if post.photo %}<img class="review-user-pic" src="{{ post.photo.url }}" alt="Post_photo"> {% else %} <p>Photo not added</p> {% endif %}
+                         {% if popular_post.photo %}<img class="review-user-pic" src="{{ popular_post.photo.url }}" alt="Post_photo"> {% else %} <p>Photo not added</p> {% endif %}
                      </div>
                      <div>
-                         <p>{{ post.description|truncatewords:30 }}</p>
+                         <p>{{ popular_post.description|truncatewords:30 }}</p>
                      </div>
                 {% endfor %}
             </div>
       </div>
-      <!-- Ushinshi kolonki -->
+<!--       Ushinshi kolonki-->
       <div class="col-md-4 bg-light border border-light-subtle text-center p-3">
         <h4>Popular Posts in Month</h4>
         <div>
-            {% for post in posts %}
+            {% for month_popular_post in month_popular_posts %}
                 <div>
-                    <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a> - {{ post.views }} views
+                    <a href="{% url 'detail' month_popular_post.id %}">{{ month_popular_post.title }}</a> - {{ month_popular_post.views }} views
                 </div>
                 <div>
-                    {% if post.photo %}<img class="review-user-pic" src="{{ post.photo.url }}" alt="Post_photo"> {% else %} <p>Photo not added</p> {% endif %}
+                    {% if month_popular_post.photo %}<img class="review-user-pic" src="{{ month_popular_post.photo.url }}" alt="Post_photo"> {% else %} <p>Photo not added</p> {% endif %}
                 </div>
                 <div>
-                    <p>{{ post.description|truncatewords:30 }}</p>
+                    <p>{{ month_popular_post.description|truncatewords:30 }}</p>
                 </div>
             {% endfor %}
         </div>

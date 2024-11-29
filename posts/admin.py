@@ -1,6 +1,5 @@
 from django.contrib import admin
-
-from posts.models import Post, PostReview, Category
+from .models import Post, PostReview, Category
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
